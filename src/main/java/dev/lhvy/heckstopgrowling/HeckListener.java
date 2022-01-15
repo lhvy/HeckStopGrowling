@@ -7,22 +7,29 @@ import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class HeckListener implements Listener {
     @EventHandler
-    public void onAttack(EntityDamageByEntityEvent e) {
-        Entity entity = e.getEntity();
-        Entity damager = e.getDamager();
-        if (entity instanceof Tameable) {
-            if (damager instanceof Projectile && ((Projectile) damager).getShooter() instanceof Player) {
-                Projectile proj = (Projectile) damager;
-                damager = (Entity) proj.getShooter();
-                proj.remove();
-            }
-            Tameable pet = (Tameable) entity;
-            if (pet.isTamed() && damager instanceof Player) {
-                e.setCancelled(true);
+    public void onTamedAttack(EntityDamageByEntityEvent event) {
+        if (hasTamedDefender(event) && hasAttackingPlayer(event)) {
+            event.setCancelled(true);
+        }
+    }
+
+    private boolean hasTamedDefender(EntityDamageByEntityEvent event) {
+        return event.getEntity() instanceof Tameable tameable && tameable.isTamed();
+    }
+
+    private boolean hasAttackingPlayer(EntityDamageByEntityEvent event) {
+        Entity attacker = event.getDamager();
+        if (attacker instanceof Projectile projectile) {
+            ProjectileSource source = projectile.getShooter();
+            if (source instanceof Player player) {
+                projectile.remove();
+                return true;
             }
         }
+        return attacker instanceof Player;
     }
 }
