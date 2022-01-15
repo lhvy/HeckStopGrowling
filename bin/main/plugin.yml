@@ -1,0 +1,7 @@
+name: HeckStopGrowling
+version: 1.0.0
+main: dev.lhvy.heckstopgrowling.HeckStopGrowling
+description: Disable friendly fire against tamed animals
+author: lhvy
+website: https://github.com/lhvy/HeckStopGrowling
+api-version: 1.18

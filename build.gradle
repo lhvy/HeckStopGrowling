@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'xyz.jpenilla.run-paper' version '1.0.6'
+    id 'net.minecrell.plugin-yml.bukkit' version '0.5.1'
+}
+
+group 'dev.lhvy.heckstopgrowling'
+version '1.0.0'
+description 'Disable friendly fire against tamed animals'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
+
+tasks {
+  runServer {
+    minecraftVersion("1.18")
+  }
+}
+
+bukkit {
+    main = 'dev.lhvy.heckstopgrowling.HeckStopGrowling'
+    apiVersion = '1.18'
+    website = 'https://github.com/lhvy/HeckStopGrowling'
+    author = 'lhvy'
+}
